@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,16 +18,20 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        CheckBox box1 = new CheckBox("Bacon");
-        CheckBox box2 = new CheckBox("Tuna");
-        box2.setSelected(true);
+        Button button = new Button("pick me!");
 
-        Button button = new Button("Order now");
-        button.setOnAction(e -> handleOptions(box1, box2));
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
+        choiceBox.getItems().add("Apples");
+        choiceBox.getItems().add("Bananas");
+        choiceBox.getItems().addAll("Bacon", "Ham", "Meatballs");
+
+        choiceBox.setValue("Apples");
+
+        button.setOnAction(e -> getChoice(choiceBox));
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.getChildren().addAll(box1, box2, button);
+        layout.getChildren().addAll(choiceBox, button);
 
         primaryStage.setScene(new Scene(layout));
         primaryStage.setTitle("title goes here");
@@ -35,16 +39,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void handleOptions(CheckBox box1, CheckBox box2) {
-        String message = "Users order:\n";
+    private void getChoice(ChoiceBox<String> choiceBox) {
+        String food = choiceBox.getValue();
 
-        if(box1.isSelected()) {
-            message += "bacon";
-        }
-        if (box2.isSelected()) {
-            message += "tuna";
-        }
-
-        System.out.println(message);
+        System.out.println(food);
     }
 }
