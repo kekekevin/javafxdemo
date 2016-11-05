@@ -1,7 +1,8 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -16,13 +17,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        TextField nameInput = new TextField();
 
-        Button button = new Button("Click me");
-        button.setOnAction(e -> isInt(nameInput, nameInput.getText()));
+        CheckBox box1 = new CheckBox("Bacon");
+        CheckBox box2 = new CheckBox("Tuna");
+        box2.setSelected(true);
+
+        Button button = new Button("Order now");
+        button.setOnAction(e -> handleOptions(box1, box2));
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(nameInput, button);
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.getChildren().addAll(box1, box2, button);
 
         primaryStage.setScene(new Scene(layout));
         primaryStage.setTitle("title goes here");
@@ -30,14 +35,16 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private boolean isInt(TextField input, String message) {
-        try {
-            int value = Integer.parseInt(input.getText());
-            System.out.println("user is " + value);
-            return true;
-        } catch (NumberFormatException e) {
-            System.out.println("error");
+    private void handleOptions(CheckBox box1, CheckBox box2) {
+        String message = "Users order:\n";
+
+        if(box1.isSelected()) {
+            message += "bacon";
         }
-        return false;
+        if (box2.isSelected()) {
+            message += "tuna";
+        }
+
+        System.out.println(message);
     }
 }
