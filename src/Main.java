@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -20,17 +20,16 @@ public class Main extends Application {
 
         Button button = new Button("pick me!");
 
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().add("Apples");
-        choiceBox.getItems().add("Bananas");
-        choiceBox.getItems().addAll("Bacon", "Ham", "Meatballs");
-
-        choiceBox.setValue("Apples");
-        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> System.out.println(newValue));
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll("Good Will Hunting", "St. Vincent", "Blackhat");
+        comboBox.setPromptText("What is your favorite movie?");
+        button.setOnAction(e -> printMovie(comboBox));
+        comboBox.setOnAction(e -> System.out.println("user selected: " + comboBox.getValue()));
+        comboBox.setEditable(true);
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.getChildren().addAll(choiceBox, button);
+        layout.getChildren().addAll(comboBox, button);
 
         primaryStage.setScene(new Scene(layout));
         primaryStage.setTitle("title goes here");
@@ -38,9 +37,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void getChoice(ChoiceBox<String> choiceBox) {
-        String food = choiceBox.getValue();
-
-        System.out.println(food);
+    private void printMovie(ComboBox<String> comboBox) {
+        System.out.println(comboBox.getValue());
     }
 }
