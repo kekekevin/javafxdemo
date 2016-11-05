@@ -1,13 +1,13 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    Scene scene1;
     Stage stage;
 
     public static void main(String[] args) {
@@ -17,28 +17,26 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        Label label1 = new Label("Welcome to the first scene");
-        Button button1 = new Button("close program");
-        button1.setOnAction(e -> closeProgram());
 
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1);
-        scene1 = new Scene(layout1, 200, 200);
+        HBox topMenu = new HBox();
+        Button buttonA = new Button(("File"));
+        Button buttonB = new Button(("Edit"));
+        Button buttonC = new Button(("View"));
+        topMenu.getChildren().addAll(buttonA, buttonB, buttonC);
 
-        primaryStage.setScene(scene1);
+        VBox leftMenu = new VBox();
+        Button buttonD = new Button(("D"));
+        Button buttonE = new Button(("E"));
+        Button buttonF = new Button(("F"));
+        leftMenu.getChildren().addAll(buttonD, buttonE, buttonF);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(topMenu);
+        borderPane.setLeft(leftMenu);
+
+        primaryStage.setScene(new Scene(borderPane));
         primaryStage.setTitle("title goes here");
-        primaryStage.setOnCloseRequest(e -> {
-            e.consume();
-            closeProgram();
-        });
-        primaryStage.show();
-    }
 
-    private void closeProgram() {
-        System.out.println("file is saved");
-        boolean answer = ConfirmBox.display("title", "are you sure you want to exit?");
-        if (answer) {
-            stage.close();
-        }
+        primaryStage.show();
     }
 }
