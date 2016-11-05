@@ -1,11 +1,9 @@
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,15 +21,33 @@ public class Main extends Application {
 
         Button button = new Button("pick me!");
 
-        ListView<String> listView = new ListView<>();
-        listView.getItems().addAll("Iron Man", "Titanic", "Contact", "Surrogates");
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        TreeItem<String> root, bucky, megan;
 
-        button.setOnAction(e -> buttonClicked(listView));
+        root = new TreeItem<>();
+        root.setExpanded(true);
+
+        bucky = makeBranch("Bucky", root);
+        makeBranch("thenewboston", bucky);
+        makeBranch("YouTube", bucky);
+        makeBranch("Chicken", bucky);
+
+        megan = makeBranch("Megan", root);
+        makeBranch("Glitter", megan);
+        makeBranch("Makeup", megan);
+
+        TreeView<String> tree = new TreeView<>(root);
+        tree.setShowRoot(false);
+        tree.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            if (newValue != null) {
+                System.out.println(newValue);
+            }
+
+        });
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.getChildren().addAll(listView, button);
+        layout.getChildren().addAll(button);
+        layout.getChildren().add(tree);
 
         primaryStage.setScene(new Scene(layout));
         primaryStage.setTitle("title goes here");
@@ -39,19 +55,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void buttonClicked(ListView<String> listView) {
-        String message = "";
-        ObservableList<String> movies;
+    private TreeItem<String> makeBranch(String title, TreeItem<String> parent) {
+        TreeItem<String> treeItem = new TreeItem<>(title);
+        treeItem.setExpanded(true);
+        parent.getChildren().add(treeItem);
 
-        movies = listView.getSelectionModel().getSelectedItems();
-
-        for (String m : movies) {
-            message += m + "\n";
-        }
-        System.out.println(message);
-    }
-
-    private void printMovie(ComboBox<String> comboBox) {
-        System.out.println(comboBox.getValue());
+        return treeItem;
     }
 }
