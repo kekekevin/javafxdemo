@@ -19,7 +19,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Label label1 = new Label("Welcome to the first scene");
         Button button1 = new Button("Yo dawg");
-        button1.setOnAction(e -> AlertBox.display("title of alert box", "alert box is amazing"));
+        button1.setOnAction(e -> {
+            boolean result = ConfirmBox.display("title of alert box", "alert box is amazing");
+            System.out.println(result);
+        });
 
         VBox layout1 = new VBox(20);
         layout1.getChildren().addAll(label1, button1);
